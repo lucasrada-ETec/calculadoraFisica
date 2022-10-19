@@ -11,12 +11,13 @@ while case == True:
     pesoy = m * g
     planoInc = input("¿El plano esta inclinado? (s/n) ").lower()
     if planoInc == "s":
-      inc = int(input("¿Cuantos grados(°) esta inclinado el plano? "))
-      while inc > 90 or inc < 0:
-        print("No es posible, ingrese otro valor ")
+        global inc
         inc = int(input("¿Cuantos grados(°) esta inclinado el plano? "))
-        fx = fx + m * g * math.sin(inc * math.pi / 180)
-        pesoy = m * g * math.cos(inc * math.pi / 180)
+        while inc > 90 or inc < 0:
+            print("No es posible, ingrese otro valor ")
+            inc = int(input("¿Cuantos grados(°) esta inclinado el plano? "))
+            fx = fx + m * g * math.sin(inc * math.pi / 180)
+            pesoy = m * g * math.cos(inc * math.pi / 180)
     if input("¿Hay friccion? (s/n) ").lower() == "s":
         material = input("¿Que materiales componen a los cuerpos?\na. Madera sobre madera\nb. Acero sobre hielo\nc. Teflón sobre teflón\nd. Caucho sobre cemento seco\ne. Vidrio sobre vidrio\nf. Esquí sobre nieve\ng. Madera sobre cuero\nh. Aluminio sobre acero\ni. Articulaciones humanas\nj. Personalizado\n")
         if material == "a": ue = 0.5; ud = 0.3
@@ -49,19 +50,17 @@ while case == True:
     if input("¿Desea evaluar otro caso? (s/n) ") == "s": case = True
     else: case = False
     array[0].append(a)
-    print(array)
 order = lambda array: array
 arrayOrder = array[0][:]
 array[0].sort(reverse = True)
 print("Valores de aceleración de mayor a menor")
 for i in range(len(array[0])): print("Objeto ", arrayOrder.index(array[0][i]) + 1, ":", array[0][i], "m/s2")
-print(array)
-angle = np.deg2rad(inc)
-vertices = np.array([[np.cos(angle), 0, 0, np.cos(angle)], [0, 0, np.sin(angle), 0],])
 if planoInc == "s":
-  plt.axis("off")
-  plt.plot(*vertices)
-  plt.figure()
-  plt.scatter(array[0], array[0])
-  plt.axis('equal')
-  plt.show()
+    angle = np.deg2rad(inc)
+    vertices = np.array([[np.cos(angle), 0, 0, np.cos(angle)], [0, 0, np.sin(angle), 0],])
+    plt.axis("off")
+    plt.plot(*vertices)
+    plt.figure()
+    plt.scatter(array[0], array[0])
+    plt.axis('equal')
+    plt.show()
