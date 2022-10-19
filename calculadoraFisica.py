@@ -64,3 +64,4 @@ if planoInc == "s":
     plt.scatter(array[0], array[0])
     plt.axis('equal')
     plt.show()
+
