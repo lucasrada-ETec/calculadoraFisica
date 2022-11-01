@@ -5,19 +5,16 @@ case = True
 array = [[],[]]
 while case == True:
     m = float(input("Ingrese la masa del cuerpo (Kilogramos) "))
-    f = float(input("Ingrese la fuerza aplicada al cuerpo (Newton)(Ingresar valor negativo (-) para mover el objeto en la direccion opuesta) "))
+    f = float(input("Ingrese la fuerza aplicada al cuerpo (Newton)(- para la direccion opuesta) "))
     g = 9.8
     fx = f
     pesoy = m * g
-    planoInc = input("¿El plano esta inclinado? (s/n) ").lower()
-    if planoInc == "s":
-        global inc
+    inc = int(input("¿Cuantos grados(°) esta inclinado el plano? "))
+    while inc > 90 or inc < 0:
+        print("No es posible, ingrese otro valor ")
         inc = int(input("¿Cuantos grados(°) esta inclinado el plano? "))
-        while inc > 90 or inc < 0:
-            print("No es posible, ingrese otro valor ")
-            inc = int(input("¿Cuantos grados(°) esta inclinado el plano? "))
-            fx = fx + m * g * math.sin(inc * math.pi / 180)
-            pesoy = m * g * math.cos(inc * math.pi / 180)
+        fx = fx + m * g * math.sin(inc * math.pi / 180)
+        pesoy = m * g * math.cos(inc * math.pi / 180)
     if input("¿Hay friccion? (s/n) ").lower() == "s":
         material = input("¿Que materiales componen a los cuerpos?\na. Madera sobre madera\nb. Acero sobre hielo\nc. Teflón sobre teflón\nd. Caucho sobre cemento seco\ne. Vidrio sobre vidrio\nf. Esquí sobre nieve\ng. Madera sobre cuero\nh. Aluminio sobre acero\ni. Articulaciones humanas\nj. Personalizado\n")
         if material == "a": ue = 0.5; ud = 0.3
@@ -41,27 +38,26 @@ while case == True:
             exit()
         else:
           a = fuerzaNeta / m
-          print("El objeto tiene una aceleracion de", a, "m/s^2 (Valor positivo: movimiento -> Valor negativo: <-)")
+          print("El objeto tiene una aceleracion de", a, "m/s^2 (Positivo: -> Negativo: <-)")
     else:
         a = fx / m
-        print("El objeto tiene una aceleracion de", a, "m/s^2 (Valor positivo: movimiento -> Valor negativo: <-)")
+        print("El objeto tiene una aceleracion de", a, "m/s^2 (Positivo: -> Negativo: <-)")
         if a == 0:
             print("Este objeto no se mueve")
     if input("¿Desea evaluar otro caso? (s/n) ") == "s": case = True
     else: case = False
     array[0].append(a)
-order = lambda array: array
 arrayOrder = array[0][:]
 array[0].sort(reverse = True)
 print("Valores de aceleración de mayor a menor")
 for i in range(len(array[0])): print("Objeto ", arrayOrder.index(array[0][i]) + 1, ":", array[0][i], "m/s2")
-if planoInc == "s":
-    angle = np.deg2rad(inc)
-    vertices = np.array([[np.cos(angle), 0, 0, np.cos(angle)], [0, 0, np.sin(angle), 0],])
-    plt.axis("off")
-    plt.plot(*vertices)
-    plt.figure()
-    plt.scatter(array[0], array[0])
-    plt.axis('equal')
-    plt.show()
-
+angle = np.deg2rad(inc)
+vertices = np.array([[np.cos(angle), 0, 0, np.cos(angle)], [0, 0, np.sin(angle), 0],])
+plt.axis("off")
+plt.axis('equal')
+plt.figure(1)
+plt.plot(*vertices)
+plt.figure(2)
+plt.grid()
+plt.scatter(array[0], array[0])
+plt.show()
