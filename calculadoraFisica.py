@@ -3,9 +3,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 case = int(input("(1) Aceleración\n(2) Velocidad\n"))
 array = [[],[]]
+def prom(y): plt.axhline(y=np.nanmean(y), color='red', linestyle='--', linewidth=3)
+def scat(a): plt.scatter(range(len(a)), a)
 if case == 2:
     t = float(input("Tiempo: "))
-    a = float(input("aceleración: "))
+    a = float(input("Aceleración: "))
     vi = float(input("Velocidad inicial: "))
     x = np.linspace(0, t)
     y = vi * x + (a * (x ** 2)) / 2
@@ -23,7 +25,6 @@ if case == 1:
         f = float(input("Ingrese la fuerza aplicada al cuerpo (Newton) "))
         h = float(input("Ingrese la altura del objeto (Metros) "))
         g = 9.8
-        t = None
         inc = int(input("¿Cuantos grados(°) esta inclinado el plano? "))
         while inc > 90 or inc < 0:
             print("No es posible, ingrese otro valor ")
@@ -80,11 +81,9 @@ if case == 1:
     plt.figure(2)
     plt.grid()
     plt.autoscale
-    print(array[1], array[0], len(array[1]))
-    plt.figure(3)
-    plt.scatter(len(array[0]), array[0])
-    plt.axhline(y=np.nanmean([array[0]]), color='red', linestyle='--', linewidth=3)
-    #plt.figure(4)
-    #plt.scatter(len(array[1]), array[1])
-    #plt.axhline(y=np.nanmean([array[1]]), color='red', linestyle='--', linewidth=3)
+    scat(array[0])
+    prom([array[0]])
+    plt.figure()
+    scat([array[1]])
+    prom([array[1]])
 plt.show()
