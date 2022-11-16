@@ -2,9 +2,20 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 case = int(input("(1) Aceleración\n(2) Velocidad\n"))
-array = [[],[]]
+array = [[], [], []]
+obj = []
 def prom(y): plt.axhline(y=np.nanmean(y), color='red', linestyle='--', linewidth=3)
-def scat(a): plt.scatter(range(len(a)), a)
+def bar(a):
+    plt.bar(obj, a)
+def plano(array):
+    c = 0
+    for i in array:
+        plt.title("Plano")
+        angle = np.deg2rad(i)
+        vertices = np.array([[-np.cos(angle), 0, 0, -np.cos(angle)], [0, 0, np.sin(angle), 0],])
+        plt.plot(*vertices, label = "{} ({}°)".format(obj[c], i))
+        plt.legend()
+        c += 1
 if case == 2:
     t = float(input("Tiempo: "))
     a = float(input("Aceleración: "))
@@ -14,8 +25,8 @@ if case == 2:
     vf = (a * t) + vi
     if a < 0: vf = 0
     print("La velocidad final es {} m/s".format(vf))
-    plt.xlabel("Metros")
-    plt.ylabel("Segundos")
+    plt.xlabel("Segundos")
+    plt.ylabel("Metros")
     plt.grid()
     plt.tight_layout()
     plt.plot(x, y, marker = ".")
@@ -68,22 +79,25 @@ if case == 1:
         if input("¿Desea evaluar otro caso? (s/n) ") == "s": case = 1
         else: case = 0
         array[0].append(a)
+        array[2].append(inc)
+    for i in range(len(array[0])): obj.append("Objeto {}".format(i + 1))
     arrayOrder = array[0][:]
     array[0].sort(reverse = True)
     print("Valores de aceleración de mayor a menor")
     for i in range(len(array[0])): print("Objeto ", arrayOrder.index(array[0][i]) + 1, ":", array[0][i], "m/s²")
-    angle = np.deg2rad(inc)
-    vertices = np.array([[-np.cos(angle), 0, 0, -np.cos(angle)], [0, 0, np.sin(angle), 0],])
+    plt.figure(1)
     plt.axis("off")
     plt.axis('equal')
-    plt.figure(1)
-    plt.plot(*vertices)
+    plano(array[2])
     plt.figure(2)
+    plt.title("Aceleracion")
     plt.grid()
     plt.autoscale
-    scat(array[0])
-    prom([array[0]])
+    bar(array[0])
+    prom(array[0])
     plt.figure()
-    scat([array[1]])
-    prom([array[1]])
+    plt.title("Tiempo")
+    plt.grid()
+    bar(array[1])
+    prom(array[1])
 plt.show()
